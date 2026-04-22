@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TPMI
 
-## Getting Started
+TPMI is a global precious metals portfolio tracker: live international spot context, physical holdings in any currency, and a warm, editorially minimal interface (Cosmos-inspired recessive chrome).
 
-First, run the development server:
+Phase 0 ships **project bootstrap**, **Supabase auth**, **protected app shell**, and a **Markets dashboard skeleton** with placeholder prices.
+
+## Tech stack
+
+- **Framework:** Next.js 16 (App Router) + TypeScript
+- **Styling:** Tailwind CSS v4 + CSS design tokens (`app/globals.css`)
+- **UI:** HeroUI v3 (`@heroui/react`, `@heroui/styles`)
+- **Icons:** `@hugeicons/react` + `@hugeicons/core-free-icons`
+- **Auth & data:** Supabase (`@supabase/supabase-js`, `@supabase/ssr`)
+- **State (later):** Zustand
+- **Charts (later):** Liveline
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+cp .env.local.example .env.local
+# fill in Supabase keys + site URL
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a Supabase project and copy **Project URL** + **anon key** into `.env.local`.
+2. In the SQL editor, run the schema from **Section 8** of your project plan (profiles + `metal_prices` cache + RLS). The SQL matches the original GoldVault plan; table names are unchanged.
+3. **Auth → URL configuration:** add `http://localhost:3000/auth/callback` (and production callback) to **Redirect URLs**.
+4. **Email auth:** enable email/password and configure SMTP or Supabase default mailer for confirmations.
+5. **Google OAuth (optional but recommended):**
+   - Supabase Dashboard → Authentication → Providers → **Google** → enable.
+   - Google Cloud Console → OAuth client → **Authorized redirect URIs** must include  
+     `https://<your-project-ref>.supabase.co/auth/v1/callback`.
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+| Key | Phase 0 | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Required | Supabase API URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Required | Browser + server client |
+| `SUPABASE_SERVICE_ROLE_KEY` | Optional | Reserved for server-only jobs (not used in Phase 0 UI) |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | OAuth + email redirect base |
+| `GOLDAPI_IO_KEY` | Phase 1+ | Live spot polling |
+| `METALS_API_KEY` | Phase 1+ | Historical / fallback |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Path | Notes |
+| --- | --- |
+| `/sign-in`, `/sign-up` | Email + Google; errors via `?error=` |
+| `/auth/callback` | OAuth + email confirmation exchange |
+| `/auth/signout` | `POST` to sign out |
+| `/dashboard` | Markets skeleton (mock metals) |
+| `/holdings` | Placeholder |
+| `/settings` | Theme + copy for future prefs |
 
-## Deploy on Vercel
+## Phase roadmap
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Live spot polling (GoldAPI.io) + Liveline charts + Supabase `metal_prices` cache
+2. Holdings / physical portfolio
+3. Notifications and alerts (e.g. email via Edge Functions)
+4. Multi-currency calculator
+5. Historical charts (Metals-API / alternatives)
+6. i18n
+7. Marketing / landing site
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+- `pnpm dev` — development server
+- `pnpm build` — production build
+- `pnpm start` — run production build
+- `pnpm lint` — ESLint
+
+## Product naming
+
+Internal documents referred to **GoldVault**; this codebase and UI use **TPMI**.
