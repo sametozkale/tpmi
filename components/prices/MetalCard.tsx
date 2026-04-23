@@ -1,9 +1,8 @@
-import { HugeiconsIcon } from "@hugeicons/react";
-import { BarChartIcon, Coins01Icon } from "@hugeicons/core-free-icons";
 import { buildMetalSeries } from "@/lib/metals";
 import type { MetalSymbol } from "@/types/metals";
 import Link from "next/link";
 import { LivelineChart } from "./LivelineChart";
+import { MetalSymbolIcon } from "./MetalSymbolIcon";
 
 export interface MetalCardProps {
   symbol: MetalSymbol;
@@ -42,11 +41,6 @@ export function MetalCard({
   href,
 }: MetalCardProps) {
   const positive = change >= 0;
-  const Icon = symbol === "XAU" ? Coins01Icon : BarChartIcon;
-  const iconColor =
-    symbol === "XAU"
-      ? "var(--color-accent-gold)"
-      : "var(--color-text-tertiary)";
   const chartData = buildMetalSeries(symbol, { points: 50, secondsStep: 25 });
 
   const content = (
@@ -57,12 +51,7 @@ export function MetalCard({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <HugeiconsIcon
-              icon={Icon}
-              size={32}
-              color={iconColor}
-              strokeWidth={1.5}
-            />
+            <MetalSymbolIcon symbol={symbol} size={32} />
             <div className="flex min-w-0 items-center gap-2">
               <div className="min-w-0">
                 <div className="flex min-w-0 items-center gap-2">
@@ -70,7 +59,7 @@ export function MetalCard({
                     {name}
                   </h3>
                   <span
-                    className={`inline-flex shrink-0 items-center rounded-[999px] px-2 py-0.5 font-body text-[11px] font-normal tracking-[-0.01em] ${
+                    className={`hidden shrink-0 items-center rounded-[999px] px-2 py-0.5 font-body text-[11px] font-normal tracking-[-0.01em] 2xl:inline-flex ${
                       positive
                         ? "bg-[var(--color-background-success)] text-[var(--color-text-positive)]"
                         : "bg-[var(--color-background-negative-tint)] text-[var(--color-text-negative)]"
@@ -102,6 +91,17 @@ export function MetalCard({
           compact
           tone={positive ? "positive" : "negative"}
         />
+      </div>
+      <div className="mt-3 2xl:hidden">
+        <span
+          className={`inline-flex items-center rounded-[999px] px-2 py-0.5 font-body text-[11px] font-normal tracking-[-0.01em] ${
+            positive
+              ? "bg-[var(--color-background-success)] text-[var(--color-text-positive)]"
+              : "bg-[var(--color-background-negative-tint)] text-[var(--color-text-negative)]"
+          }`}
+        >
+          {formatChange(change)} · {formatChangePct(changePct)}
+        </span>
       </div>
     </article>
   );

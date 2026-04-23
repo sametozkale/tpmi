@@ -4,7 +4,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   GridViewIcon,
   PieChart01Icon,
-  Settings02Icon,
+  Wallet01Icon,
 } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 const tabs = [
   { href: "/holdings", label: "Portfolio", icon: PieChart01Icon },
   { href: "/dashboard", label: "Watchlist", icon: GridViewIcon },
-  { href: "/settings", label: "Settings", icon: Settings02Icon },
+  { href: "/transactions", label: "Transactions", icon: Wallet01Icon },
 ] as const;
 
 export function MobileTabBar() {

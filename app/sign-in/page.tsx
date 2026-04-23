@@ -1,12 +1,11 @@
-import {
-  signInWithGoogle,
-  signInWithPassword,
-} from "@/app/actions/auth";
 import { TpmiLogo } from "@/components/layout/TpmiLogo";
 import { GoogleMark } from "@/components/ui/GoogleMark";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { Button } from "@heroui/react";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function SignInPage({
   searchParams,
@@ -37,7 +36,7 @@ export default async function SignInPage({
             </h1>
           </div>
 
-          <form className="flex flex-col gap-5" action={signInWithPassword}>
+          <form className="flex flex-col gap-5" action="/auth/signin" method="post">
             <div>
               <label className="tpmi-label" htmlFor="email">
                 Email
@@ -79,7 +78,7 @@ export default async function SignInPage({
 
           <div className="tpmi-divider-or">or</div>
 
-          <form action={signInWithGoogle}>
+          <form action="/auth/signin/google" method="get">
             <Button
               type="submit"
               variant="secondary"

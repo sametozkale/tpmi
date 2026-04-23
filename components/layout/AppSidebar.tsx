@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Avatar } from "@heroui/react";
 import {
   GridViewIcon,
   PieChart01Icon,
@@ -11,6 +9,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AvatarMenu } from "@/components/layout/AvatarMenu";
 import { ThemeToggle } from "./ThemeToggle";
 import { TpmiLogo } from "./TpmiLogo";
 
@@ -20,27 +19,22 @@ const links = [
   { href: "/transactions", label: "Transactions", icon: Wallet01Icon },
 ] as const;
 
-export function AppSidebar() {
-  const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    function onPointerDown(event: MouseEvent) {
-      if (!menuRef.current) return;
-      if (!menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false);
-      }
-    }
+export interface AppSidebarProps {
+  email?: string | null;
+  displayName?: string | null;
+  avatarUrl?: string | null;
+}
 
-    if (menuOpen) {
-      document.addEventListener("mousedown", onPointerDown);
-    }
-    return () => document.removeEventListener("mousedown", onPointerDown);
-  }, [menuOpen]);
+export function AppSidebar({
+  email,
+  displayName,
+  avatarUrl,
+}: AppSidebarProps) {
+  const pathname = usePathname();
 
   return (
     <aside
-      className="fixed inset-y-0 left-0 z-30 hidden w-[var(--layout-sidebar-width)] flex-col border-r border-[var(--color-border-primary)] bg-[var(--color-background-light-elevation)] lg:flex"
+      className="fixed inset-y-0 left-0 z-30 hidden w-[var(--layout-sidebar-width)] flex-col border-r border-[var(--color-border-primary)] bg-[#fafafa] lg:flex"
       aria-label="Sidebar"
     >
       <div
@@ -65,13 +59,13 @@ export function AppSidebar() {
               href={link.href}
               className={`flex items-center gap-3 rounded-[14px] px-3 py-2 font-body text-[14px] font-normal tracking-[-0.01em] transition-all duration-150 ease-in-out ${
                 active
-                  ? "bg-[var(--color-background-elevation)] text-[var(--color-text-primary)]"
+                  ? "bg-[#f2f2f2] text-[var(--color-text-primary)]"
                   : "text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]"
               }`}
             >
               <HugeiconsIcon
                 icon={link.icon}
-                size={20}
+                size={18}
                 color="currentColor"
                 strokeWidth={1.5}
               />
@@ -81,41 +75,14 @@ export function AppSidebar() {
         })}
       </nav>
 
-      <div className="mt-auto flex flex-col gap-3 border-t border-[var(--color-border-primary)] p-4">
+      <div className="mt-auto border-t border-[var(--color-border-primary)] px-4 py-4">
         <div className="flex items-center justify-between gap-3">
-          <div className="relative" ref={menuRef}>
-            <button
-              type="button"
-              onClick={() => setMenuOpen((prev) => !prev)}
-              aria-haspopup="menu"
-              aria-expanded={menuOpen}
-              aria-label="Open account menu"
-              className="inline-flex items-center justify-center p-0 transition-all duration-150 ease-in-out hover:opacity-85"
-            >
-              <Avatar color="accent" size="sm" variant="soft">
-                <Avatar.Image src="/blue-holistic-avatar.svg" alt="Profile avatar" />
-                <Avatar.Fallback />
-              </Avatar>
-            </button>
-
-            {menuOpen ? (
-              <div
-                role="menu"
-                className="absolute bottom-12 left-0 w-36 rounded-[12px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-1 shadow-[var(--shadow-2)]"
-              >
-                <form action="/auth/signout" method="post">
-                  <button
-                    type="submit"
-                    role="menuitem"
-                    className="w-full rounded-[10px] px-3 py-2 text-left font-body text-[13px] tracking-[-0.01em] text-[var(--color-text-primary)] transition-all duration-150 ease-in-out hover:bg-[var(--color-hover-tertiary)]"
-                  >
-                    Log out
-                  </button>
-                </form>
-              </div>
-            ) : null}
-          </div>
-
+          <AvatarMenu
+            email={email}
+            displayName={displayName}
+            avatarUrl={avatarUrl}
+            placement="top start"
+          />
           <div className="ml-auto flex items-center gap-3">
             <ThemeToggle />
             <Link

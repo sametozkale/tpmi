@@ -1,7 +1,8 @@
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowLeft01Icon, BarChartIcon, Coins01Icon } from "@hugeicons/core-free-icons";
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { METAL_DETAILS, buildMetalSeries, isMetalSymbol } from "@/lib/metals";
 import { LivelineChart } from "@/components/prices/LivelineChart";
+import { MetalSymbolIcon } from "@/components/prices/MetalSymbolIcon";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -31,11 +32,6 @@ export default async function MetalDetailPage({
 
   const detail = METAL_DETAILS[upperSymbol];
   const positive = detail.change >= 0;
-  const iconColor =
-    detail.symbol === "XAU"
-      ? "var(--color-accent-gold)"
-      : "var(--color-text-tertiary)";
-
   const keyStats = [
     { label: "Day High", value: formatNumber(detail.dayHigh) },
     { label: "Day Low", value: formatNumber(detail.dayLow) },
@@ -79,14 +75,9 @@ export default async function MetalDetailPage({
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <HugeiconsIcon
-                icon={detail.symbol === "XAU" ? Coins01Icon : BarChartIcon}
-                size={32}
-                color={iconColor}
-                strokeWidth={1.5}
-              />
+              <MetalSymbolIcon symbol={detail.symbol} size={32} />
               <div>
-                <h1 className="font-title text-[30px] font-normal leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
+                <h1 className="font-title text-[24px] font-medium leading-tight tracking-[-0.02em] text-[var(--color-text-primary)]">
                   {detail.name}
                 </h1>
                 <p className="font-body text-[12px] tracking-[-0.01em] text-[var(--color-text-secondary)]">
@@ -94,7 +85,7 @@ export default async function MetalDetailPage({
                 </p>
               </div>
             </div>
-            <p className="max-w-2xl font-body text-[15px] leading-relaxed tracking-[-0.01em] text-[var(--color-text-secondary)]">
+            <p className="max-w-2xl font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
               {detail.tagline}
             </p>
           </div>

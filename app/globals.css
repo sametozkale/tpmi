@@ -206,7 +206,11 @@
   }
 
   .tpmi-input:hover {
-    border-color: var(--color-border-secondary);
+    border-color: color-mix(
+      in oklab,
+      var(--color-button-primary) 25%,
+      var(--color-background-card)
+    );
   }
 
   .tpmi-input:focus-visible {
@@ -261,8 +265,12 @@
 
   .tpmi-select-trigger:hover,
   .tpmi-select-trigger[data-hovered="true"] {
-    border-color: var(--color-border-secondary);
-    background: var(--color-background-card);
+    border-color: color-mix(
+      in oklab,
+      var(--color-button-primary) 25%,
+      var(--color-background-card)
+    );
+  background: var(--color-background-card) !important;
   }
 
   .tpmi-card-surface {
@@ -274,7 +282,7 @@
   }
 
   .tpmi-card-surface:hover {
-    border-color: var(--color-border-secondary);
+    border-color: #e7e7e7;
     box-shadow: var(--shadow-0);
   }
 

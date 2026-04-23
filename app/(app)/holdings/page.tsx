@@ -1,126 +1,122 @@
 import { PortfolioLivePanel } from "@/components/portfolio/PortfolioLivePanel";
-import { Button } from "@heroui/react";
+import { Table } from "@heroui/react";
+import { METALS_LIST } from "@/lib/metals";
 
-const portfolioInstruments = [
-  { name: "Gold", symbol: "XAU", price: 2345.67, quantity: 0.72 },
-  { name: "Silver", symbol: "XAG", price: 29.84, quantity: 6.55 },
-  { name: "Platinum", symbol: "XPT", price: 978.5, quantity: 0.15 },
-];
+const portfolioInstruments = METALS_LIST.slice(0, 8).map((metal, index) => ({
+  name: metal.name,
+  symbol: metal.symbol,
+  price: metal.price,
+  quantity: 0.18 + index * 0.07,
+}));
 
-const portfolioRows = [
-  {
-    name: "Gold",
-    ticker: "XAU",
-    avgBuy: "$2,318.20",
-    latest: "$2,345.67",
-    profit: "+$27.47",
-    change: "+1.19%",
-    value: "$1,947.83",
-  },
-  {
-    name: "Silver",
-    ticker: "XAG",
-    avgBuy: "$31.15",
-    latest: "$29.84",
-    profit: "-$1.31",
-    change: "-4.20%",
-    value: "$195.49",
-  },
-  {
-    name: "Platinum",
-    ticker: "XPT",
-    avgBuy: "$954.10",
-    latest: "$978.50",
-    profit: "+$24.40",
-    change: "+2.56%",
-    value: "$148.12",
-  },
-];
+const portfolioRows = METALS_LIST.map((metal, index) => {
+  const quantity = 0.16 + (index % 7) * 0.06;
+  const avgBuyValue = metal.price - metal.change;
+  const valueAmount = metal.price * quantity;
+
+  return {
+    name: metal.name,
+    ticker: metal.symbol,
+    avgBuy: `$${avgBuyValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+    latest: `$${metal.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+    profit: `${metal.change >= 0 ? "+" : ""}$${Math.abs(metal.change).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`,
+    change: `${metal.changePct >= 0 ? "+" : ""}${metal.changePct.toFixed(2)}%`,
+    value: `$${valueAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+  };
+});
 
 export default function HoldingsPage() {
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <PortfolioLivePanel instruments={portfolioInstruments} />
+      <header className="space-y-2">
+        <h1 className="font-title text-[24px] font-medium leading-tight tracking-[-0.02em] text-[var(--color-text-primary)]">
+          Portfolio
+        </h1>
+        <p className="font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
+          Live precious metals portfolio summary and allocations.
+        </p>
+      </header>
 
-        <aside className="space-y-4 xl:col-span-4">
-          <section className="tpmi-card-surface p-4">
-            <p className="font-body text-[12px] tracking-[-0.01em] text-[var(--color-text-secondary)]">
-              Cash
-            </p>
-            <p className="mt-1 font-title text-[28px] font-normal leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
-              EUR 729.52
-            </p>
-            <Button
-              type="button"
-              variant="primary"
-              className="mt-3 h-[32px] rounded-[10px] px-4 font-body text-[12px] font-medium tracking-[-0.01em]"
-            >
-              Deposit
-            </Button>
-          </section>
-        </aside>
-      </div>
+      <PortfolioLivePanel instruments={portfolioInstruments} />
 
       <section className="tpmi-card-surface p-5">
         <div className="mb-4 flex items-end justify-between">
-          <div>
-            <p className="font-title text-[18px] font-normal tracking-[-0.02em] text-[var(--color-text-primary)]">
+          <div className="space-y-2">
+            <p className="font-body text-[15px] font-normal leading-none tracking-[-0.01em] text-[var(--color-text-secondary)]">
               Investments
             </p>
-            <p className="mt-1 font-title text-[30px] font-normal leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
+            <p className="font-title text-[30px] font-medium leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
               EUR 1,828.07
             </p>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[620px] border-separate border-spacing-y-2">
-            <thead>
-              <tr className="font-body text-[11px] tracking-[-0.01em] text-[var(--color-text-tertiary)]">
-                <th className="px-3 py-1 text-left font-normal">Name</th>
-                <th className="px-3 py-1 text-left font-normal">Avg. buy price</th>
-                <th className="px-3 py-1 text-left font-normal">Latest price</th>
-                <th className="px-3 py-1 text-left font-normal">Profit</th>
-                <th className="px-3 py-1 text-left font-normal">Change</th>
-                <th className="px-3 py-1 text-left font-normal">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {portfolioRows.map((row) => (
-                <tr
-                  key={row.ticker}
-                  className="rounded-[12px] bg-[var(--color-background-light-elevation)] font-body text-[13px] tracking-[-0.01em] text-[var(--color-text-primary)]"
-                >
-                  <td className="rounded-l-[12px] px-3 py-3">
-                    <p>{row.name}</p>
-                    <p className="text-[11px] text-[var(--color-text-secondary)]">{row.ticker}</p>
-                  </td>
-                  <td className="px-3 py-3">{row.avgBuy}</td>
-                  <td className="px-3 py-3">{row.latest}</td>
-                  <td
-                    className={`px-3 py-3 ${
-                      row.profit.startsWith("+")
-                        ? "text-[var(--color-text-positive)]"
-                        : "text-[var(--color-text-negative)]"
-                    }`}
-                  >
-                    {row.profit}
-                  </td>
-                  <td
-                    className={`px-3 py-3 ${
-                      row.change.startsWith("+")
-                        ? "text-[var(--color-text-positive)]"
-                        : "text-[var(--color-text-negative)]"
-                    }`}
-                  >
-                    {row.change}
-                  </td>
-                  <td className="rounded-r-[12px] px-3 py-3 text-[var(--color-text-primary)]">{row.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Table
+            aria-label="Investments table"
+            className="min-w-[620px] overflow-hidden rounded-b-[14px]"
+          >
+            <Table.Content className="-mb-1 w-full min-w-[620px] border-separate border-spacing-y-1">
+              <Table.Header className="font-body text-[11px] tracking-[-0.01em] text-[var(--color-text-tertiary)]">
+                <Table.Column isRowHeader className="h-auto bg-transparent px-3 py-1 text-left font-normal">
+                  Name
+                </Table.Column>
+                <Table.Column className="h-auto bg-transparent px-3 py-1 text-left font-normal">
+                  Avg. buy price
+                </Table.Column>
+                <Table.Column className="h-auto bg-transparent px-3 py-1 text-left font-normal">
+                  Latest price
+                </Table.Column>
+                <Table.Column className="h-auto bg-transparent px-3 py-1 text-left font-normal">
+                  Profit
+                </Table.Column>
+                <Table.Column className="h-auto bg-transparent px-3 py-1 text-left font-normal">
+                  Change
+                </Table.Column>
+                <Table.Column className="h-auto bg-transparent px-3 py-1 text-left font-normal">Value</Table.Column>
+              </Table.Header>
+              <Table.Body className="font-body text-[13px] tracking-[-0.01em] text-[var(--color-text-primary)]">
+                {portfolioRows.map((row) => (
+                  <Table.Row key={row.ticker}>
+                    <Table.Cell className="rounded-l-[12px] bg-white px-3 py-3 align-middle">
+                      <p>{row.name}</p>
+                      <p className="text-[11px] text-[var(--color-text-secondary)]">{row.ticker}</p>
+                    </Table.Cell>
+                    <Table.Cell className="bg-white px-3 py-3 align-middle">
+                      {row.avgBuy}
+                    </Table.Cell>
+                    <Table.Cell className="bg-white px-3 py-3 align-middle">
+                      {row.latest}
+                    </Table.Cell>
+                    <Table.Cell
+                      className={`bg-white px-3 py-3 align-middle ${
+                        row.profit.startsWith("+")
+                          ? "text-[var(--color-text-positive)]"
+                          : "text-[var(--color-text-negative)]"
+                      }`}
+                    >
+                      {row.profit}
+                    </Table.Cell>
+                    <Table.Cell
+                      className={`bg-white px-3 py-3 align-middle ${
+                        row.change.startsWith("+")
+                          ? "text-[var(--color-text-positive)]"
+                          : "text-[var(--color-text-negative)]"
+                      }`}
+                    >
+                      {row.change}
+                    </Table.Cell>
+                    <Table.Cell className="rounded-r-[12px] bg-white px-3 py-3 align-middle">
+                      {row.value}
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Content>
+          </Table>
         </div>
       </section>
     </div>

@@ -1,4 +1,24 @@
-export type MetalSymbol = "XAU" | "XAG" | "XPT" | "XPD";
+export type MetalSymbol =
+  | "XAU"
+  | "XAG"
+  | "XPT"
+  | "XPD"
+  | "RH"
+  | "IR"
+  | "RU"
+  | "OS"
+  | "XCU"
+  | "ALI"
+  | "NI"
+  | "ZN"
+  | "PB"
+  | "SN"
+  | "CO"
+  | "TIO"
+  | "HRC"
+  | "UX"
+  | "LTH"
+  | "MO";
 export type Currency =
   | "USD"
   | "EUR"
@@ -22,12 +42,4 @@ export interface MetalPrice {
   ask?: number;
   bid?: number;
   fetchedAt: string;
-}
-
-export interface UserProfile {
-  id: string;
-  email: string;
-  displayName?: string;
-  preferredCurrency: Currency;
-  theme: "light" | "dark";
 }

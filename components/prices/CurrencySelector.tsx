@@ -39,7 +39,7 @@ export function CurrencySelector() {
               key={c.id}
               id={c.id}
               textValue={c.name}
-              className="rounded-[10px] px-[10px] py-2 font-body text-[14px] tracking-[-0.01em] text-[var(--color-text-primary)] data-[focused]:bg-[var(--color-background-elevation)]"
+              className="rounded-[10px] px-[10px] py-2 font-body text-[14px] tracking-[-0.01em] text-[var(--color-text-primary)] data-[hovered]:bg-[#f6f6f6] data-[focused]:bg-[#f6f6f6]"
             >
               {c.name}
             </ListBox.Item>

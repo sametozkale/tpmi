@@ -7,10 +7,10 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-10">
       <header className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-2">
-          <h1 className="font-title text-[30px] font-normal leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
+          <h1 className="font-title text-[24px] font-medium leading-tight tracking-[-0.02em] text-[var(--color-text-primary)]">
             Markets
           </h1>
-          <p className="max-w-xl font-body text-[15px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
+          <p className="max-w-xl font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
             Live precious metals spot prices (placeholder data for Phase 0).
           </p>
         </div>
