@@ -1,4 +1,5 @@
 import { PortfolioLivePanel } from "@/components/portfolio/PortfolioLivePanel";
+import { Button } from "@heroui/react";
 
 const portfolioInstruments = [
   { name: "Gold", symbol: "XAU", price: 2345.67, quantity: 0.72 },
@@ -43,24 +44,25 @@ export default function HoldingsPage() {
         <PortfolioLivePanel instruments={portfolioInstruments} />
 
         <aside className="space-y-4 xl:col-span-4">
-          <section className="rounded-[16px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-4">
+          <section className="tpmi-card-surface p-4">
             <p className="font-body text-[12px] tracking-[-0.01em] text-[var(--color-text-secondary)]">
               Cash
             </p>
             <p className="mt-1 font-title text-[28px] font-normal leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
               EUR 729.52
             </p>
-            <button
+            <Button
               type="button"
-              className="mt-3 rounded-full bg-[var(--color-button-primary)] px-4 py-2 font-body text-[12px] tracking-[-0.01em] text-[var(--color-text-inverted)]"
+              variant="primary"
+              className="mt-3 h-[32px] rounded-[10px] px-4 font-body text-[12px] font-medium tracking-[-0.01em]"
             >
               Deposit
-            </button>
+            </Button>
           </section>
         </aside>
       </div>
 
-      <section className="rounded-[16px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-5">
+      <section className="tpmi-card-surface p-5">
         <div className="mb-4 flex items-end justify-between">
           <div>
             <p className="font-title text-[18px] font-normal tracking-[-0.02em] text-[var(--color-text-primary)]">

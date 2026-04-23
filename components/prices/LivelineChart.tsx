@@ -53,7 +53,7 @@ export function LivelineChart({
 
   return (
     <div
-      className="w-full overflow-hidden rounded-[12px] border border-[var(--color-border-secondary)] bg-white"
+      className="w-full overflow-hidden rounded-[12px] bg-white"
       style={{ height }}
       aria-hidden
     >

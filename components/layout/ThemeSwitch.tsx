@@ -32,6 +32,7 @@ export function ThemeSwitch() {
   const handleToggle = useCallback((selected: boolean) => {
     const nextTheme: ThemeMode = selected ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", nextTheme);
+    document.cookie = `${STORAGE_KEY}=${nextTheme}; path=/; max-age=31536000; samesite=lax`;
     try {
       localStorage.setItem(STORAGE_KEY, nextTheme);
     } catch {
@@ -44,7 +45,7 @@ export function ThemeSwitch() {
       aria-label="Toggle dark mode"
       isSelected={isDark}
       onChange={handleToggle}
-      className="inline-flex w-auto max-w-fit data-[selected=true]:text-[var(--color-text-primary)]"
+      className="inline-flex w-auto max-w-fit data-[selected=true]:text-[var(--color-text-primary)] [--switch-control-bg-checked:var(--color-text-positive)] [--switch-control-bg-checked-hover:color-mix(in_oklab,var(--color-text-positive),black_10%)]"
       size="sm"
     >
       <Switch.Control>

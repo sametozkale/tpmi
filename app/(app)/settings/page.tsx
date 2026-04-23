@@ -13,7 +13,7 @@ export default function SettingsPage() {
         </p>
       </div>
 
-      <section className="max-w-md space-y-3 rounded-[12px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-5">
+      <section className="tpmi-card-surface max-w-md space-y-3 p-5">
         <h2 className="font-title text-[18px] font-medium tracking-[-0.01em] text-[var(--color-text-primary)]">
           Appearance
         </h2>

@@ -51,50 +51,47 @@ export function MetalCard({
 
   const content = (
     <article
-      className="flex flex-col rounded-[12px] border border-[var(--color-border-primary)] p-5 shadow-[var(--shadow-0)] transition-shadow duration-150 ease-in-out hover:shadow-[var(--shadow-1)]"
-      style={
-        symbol === "XAU"
-          ? {
-              background:
-                "linear-gradient(180deg, var(--color-accent-gold-light), var(--color-background-card))",
-            }
-          : { background: "var(--color-background-card)" }
-      }
+      className="tpmi-card-surface flex flex-col p-5"
+      style={{ background: "var(--color-background-card)" }}
     >
       <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="mb-2 flex items-center gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
             <HugeiconsIcon
               icon={Icon}
               size={32}
               color={iconColor}
               strokeWidth={1.5}
             />
-            <div>
-              <h3 className="font-title text-[18px] font-medium leading-tight tracking-[-0.01em] text-[var(--color-text-primary)]">
-                {name}
-              </h3>
-              <p className="font-body text-[12px] tracking-[-0.01em] text-[var(--color-text-secondary)]">
-                {symbol}
-              </p>
+            <div className="flex min-w-0 items-center gap-2">
+              <div className="min-w-0">
+                <div className="flex min-w-0 items-center gap-2">
+                  <h3 className="font-title text-[18px] font-medium leading-tight tracking-[-0.01em] text-[var(--color-text-primary)]">
+                    {name}
+                  </h3>
+                  <span
+                    className={`inline-flex shrink-0 items-center rounded-[999px] px-2 py-0.5 font-body text-[11px] font-normal tracking-[-0.01em] ${
+                      positive
+                        ? "bg-[var(--color-background-success)] text-[var(--color-text-positive)]"
+                        : "bg-[var(--color-background-negative-tint)] text-[var(--color-text-negative)]"
+                    }`}
+                  >
+                    {formatChange(change)} · {formatChangePct(changePct)}
+                  </span>
+                </div>
+                <p className="font-body text-[12px] tracking-[-0.01em] text-[var(--color-text-secondary)]">
+                  {symbol}
+                </p>
+              </div>
             </div>
           </div>
-          <p className="font-title text-[20px] font-medium leading-none tracking-[-0.015em] text-[var(--color-text-primary)]">
-            {formatPrice(price)}{" "}
-            <span className="font-body text-[12px] font-normal tracking-[-0.01em] text-[var(--color-text-secondary)]">
-              {currency}
-            </span>
-          </p>
         </div>
-        <span
-          className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-1 font-body text-[12px] font-normal tracking-[-0.01em] ${
-            positive
-              ? "bg-[var(--color-background-success)] text-[var(--color-text-positive)]"
-              : "bg-[var(--color-background-negative-tint)] text-[var(--color-text-negative)]"
-          }`}
-        >
-          {formatChange(change)} · {formatChangePct(changePct)}
-        </span>
+        <p className="shrink-0 text-right font-title text-[20px] font-medium leading-none tracking-[-0.015em] text-[var(--color-text-primary)]">
+          <span className="font-body">{formatPrice(price)}</span>{" "}
+          <span className="font-body text-[12px] font-normal tracking-[-0.01em] text-[var(--color-text-secondary)]">
+            {currency}
+          </span>
+        </p>
       </div>
 
       <div className="mt-4">

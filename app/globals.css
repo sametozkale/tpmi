@@ -2,6 +2,9 @@
 @import "@heroui/styles";
 
 :root {
+  --accent: #fe7e01;
+  --accent-foreground: #ffffff;
+
   /* Backgrounds */
   --color-background: #ffffff;
   --color-background-paper: #f7f5f3;
@@ -11,44 +14,44 @@
   --color-background-inverted: #0d0d0d;
 
   /* Buttons */
-  --color-button-primary: #0d0d0d;
+  --color-button-primary: #fe7e01;
   --color-button-secondary: #f2f1f0;
 
   /* Text */
-  --color-text-primary: #0d0d0d;
+  --color-text-primary: #0f172a;
   --color-text-secondary: #6e6a69;
   --color-text-tertiary: #9a9796;
   --color-text-quaternary: #d0cdcd;
   --color-text-inverted: #ffffff;
   --color-text-disabled: #d0cdcd;
-  --color-text-critical: #bd3c1f;
-  --color-text-success: #00af5d;
-  --color-text-link: #2965f6;
-  --color-text-positive: #00af5d;
-  --color-text-negative: #bd3c1f;
+  --color-text-critical: #d65f49;
+  --color-text-success: #22b573;
+  --color-text-link: #fe7e01;
+  --color-text-positive: #22b573;
+  --color-text-negative: #d65f49;
 
   /* Borders */
-  --color-border-primary: rgba(13, 13, 13, 0.12);
-  --color-border-secondary: rgba(13, 13, 13, 0.1);
-  --color-border-soft: rgba(13, 13, 13, 0.06);
+  --color-border-primary: #f2f2f2;
+  --color-border-secondary: #f6f6f6;
+  --color-border-soft: #f9f9f9;
   --color-border-active: #0d0d0d;
-  --color-border-critical: #bd3c1f;
+  --color-border-critical: #d65f49;
 
   /* Hovers */
-  --color-hover-primary: #232323;
+  --color-hover-primary: #e57100;
   --color-hover-secondary: #e8e6e4;
   --color-hover-tertiary: #f8f8f7;
 
   /* Semantic */
-  --color-background-critical: #bd3c1f;
+  --color-background-critical: #d65f49;
   --color-background-badge: #2965f6;
-  --color-background-success: rgba(0, 175, 93, 0.12);
+  --color-background-success: rgba(34, 181, 115, 0.12);
   --color-background-warning: rgba(201, 150, 58, 0.12);
   --color-background-negative-tint: rgba(189, 60, 31, 0.12);
 
   /* TPMI accent (logo / XAU icon only) */
-  --color-accent-gold: #c9963a;
-  --color-accent-gold-light: rgba(201, 150, 58, 0.15);
+  --color-accent-gold: #d4a64a;
+  --color-accent-gold-light: rgba(212, 166, 74, 0.15);
 
   /* Layout */
   --layout-padding-horizontal: 32px;
@@ -64,13 +67,16 @@
 }
 
 [data-theme="dark"] {
+  --accent: #fe7e01;
+  --accent-foreground: #ffffff;
+
   --color-background: #141414;
   --color-background-paper: #141414;
   --color-background-elevation: #323131;
   --color-background-light-elevation: #212020;
   --color-background-card: #212020;
   --color-background-inverted: #ffffff;
-  --color-button-primary: #ffffff;
+  --color-button-primary: #fe7e01;
   --color-button-secondary: #323131;
   --color-text-primary: #ffffff;
   --color-text-secondary: #aeabab;
@@ -78,13 +84,13 @@
   --color-text-quaternary: #434242;
   --color-text-inverted: #0d0d0d;
   --color-text-critical: #ef7759;
-  --color-text-link: #316af4;
-  --color-border-primary: rgba(247, 245, 243, 0.12);
-  --color-border-secondary: rgba(255, 255, 255, 0.1);
-  --color-border-soft: rgba(255, 255, 255, 0.06);
+  --color-text-link: #fe7e01;
+  --color-border-primary: #3a3a3a;
+  --color-border-secondary: #333333;
+  --color-border-soft: #2a2a2a;
   --color-border-active: #ffffff;
   --color-border-critical: #ef7759;
-  --color-hover-primary: #e8e6e4;
+  --color-hover-primary: #e57100;
   --color-hover-secondary: #373636;
   --color-hover-tertiary: #181818;
 }
@@ -163,7 +169,7 @@
   .tpmi-auth-card {
     background: var(--color-background-card);
     border: 1px solid var(--color-border-primary);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 32px;
     box-shadow: var(--shadow-1);
   }
@@ -188,7 +194,7 @@
     color: var(--color-text-primary);
     padding: 0 12px;
     font-family: var(--font-body), Arial, system-ui, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.45;
     letter-spacing: -0.01em;
     font-weight: 400;
@@ -204,9 +210,113 @@
   }
 
   .tpmi-input:focus-visible {
-    border-color: var(--color-border-active);
-    outline: none;
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-border-active) 20%, transparent);
+    border-color: var(--color-button-primary);
+    outline: 1px solid
+      color-mix(in oklab, var(--color-button-primary) 20%, transparent);
+    outline-offset: 1px;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .tpmi-input--date::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+
+  .tpmi-input--date {
+    color: var(--color-text-tertiary);
+  }
+
+  .tpmi-input--date:focus-visible {
+    color: var(--color-text-primary);
+  }
+
+  .tpmi-input--date::-webkit-datetime-edit {
+    color: inherit;
+  }
+
+  .tpmi-select-trigger {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border-primary);
+    background: var(--color-background-card);
+    color: var(--color-text-primary);
+    padding: 0 40px 0 12px;
+    font-family: var(--font-body), Arial, system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    position: relative;
+    transition: border-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+  }
+
+  .select--secondary .tpmi-select-trigger {
+    background: var(--color-background-card);
+  }
+
+  .tpmi-select-trigger:hover,
+  .tpmi-select-trigger[data-hovered="true"] {
+    border-color: var(--color-border-secondary);
+    background: var(--color-background-card);
+  }
+
+  .tpmi-card-surface {
+    border: 1px solid var(--color-border-primary);
+    border-radius: 16px;
+    background: var(--color-background-card);
+    box-shadow: var(--shadow-0);
+    transition: border-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+  }
+
+  .tpmi-card-surface:hover {
+    border-color: var(--color-border-secondary);
+    box-shadow: var(--shadow-0);
+  }
+
+  .tpmi-range-chip {
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-family: var(--font-body), Arial, system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: -0.01em;
+    color: var(--color-text-tertiary);
+    transition: color 150ms ease-in-out, background-color 150ms ease-in-out;
+  }
+
+  .tpmi-range-chip:hover {
+    color: var(--color-text-primary);
+  }
+
+  .tpmi-range-chip[data-active="true"] {
+    color: var(--color-text-primary);
+    background: var(--color-background-elevation);
+  }
+
+  .tpmi-select-trigger:focus-visible,
+  .tpmi-select-trigger[data-focus-visible="true"] {
+    border-color: var(--color-button-primary);
+    outline: 1px solid
+      color-mix(in oklab, var(--color-button-primary) 20%, transparent);
+    outline-offset: 1px;
+    box-shadow: none;
+  }
+
+  .tpmi-select-trigger [data-slot="select-indicator"] {
+    color: var(--color-text-tertiary);
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .tpmi-select-trigger [data-slot="select-value"] {
+    margin: 0;
+    padding: 0;
   }
 
   .tpmi-divider-or {
@@ -257,5 +367,50 @@
     font-size: 14px;
     letter-spacing: -0.01em;
     line-height: 1.4;
+  }
+
+  .checkbox--primary[aria-checked="true"] .checkbox__control::before,
+  .checkbox--primary[data-selected="true"] .checkbox__control::before,
+  .checkbox--primary[data-indeterminate="true"] .checkbox__control::before {
+    background: var(--color-button-primary);
+  }
+
+  .checkbox--primary[data-indeterminate="true"] .checkbox__control {
+    background: var(--color-button-primary);
+    border-color: transparent;
+  }
+
+  .button--primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    padding: 1px;
+    background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0) 100%
+      )
+      border-box;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  [data-sonner-toast] [data-icon] {
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  [data-sonner-toast] [data-content] {
+    align-items: flex-start;
+  }
+
+  [data-sonner-toast] {
+    width: fit-content;
+    max-width: min(420px, calc(100vw - 32px));
   }
 }

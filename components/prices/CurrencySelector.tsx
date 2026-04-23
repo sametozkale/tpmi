@@ -28,7 +28,7 @@ export function CurrencySelector() {
       aria-label="Display currency"
     >
       <Label className="sr-only">Currency</Label>
-      <Select.Trigger className="h-[34px] rounded-[12px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] px-[10px] font-body text-[14px] font-normal tracking-[-0.01em] text-[var(--color-text-primary)]">
+      <Select.Trigger className="tpmi-select-trigger">
         <Select.Value />
         <Select.Indicator />
       </Select.Trigger>

@@ -31,6 +31,7 @@ export function ThemeToggle() {
 
   const applyTheme = useCallback((next: ThemeMode) => {
     document.documentElement.setAttribute("data-theme", next);
+    document.cookie = `${STORAGE_KEY}=${next}; path=/; max-age=31536000; samesite=lax`;
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {

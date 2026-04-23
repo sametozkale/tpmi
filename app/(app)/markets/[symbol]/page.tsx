@@ -66,7 +66,7 @@ export default async function MetalDetailPage({
       </div>
 
       <section
-        className="rounded-[12px] border border-[var(--color-border-primary)] p-6"
+        className="tpmi-card-surface p-6"
         style={
           detail.symbol === "XAU"
             ? {
@@ -119,7 +119,7 @@ export default async function MetalDetailPage({
         </div>
       </section>
 
-      <section className="rounded-[12px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-6">
+      <section className="tpmi-card-surface p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-title text-[24px] font-light leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
             Price Activity
@@ -136,7 +136,7 @@ export default async function MetalDetailPage({
         />
       </section>
 
-      <section className="rounded-[12px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-6">
+      <section className="tpmi-card-surface p-6">
         <h2 className="font-title text-[24px] font-light leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
           Key Levels
         </h2>

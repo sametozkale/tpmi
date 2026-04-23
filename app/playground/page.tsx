@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Calendar03Icon, Search01Icon } from "@hugeicons/core-free-icons";
 import {
   Avatar,
   Button,
@@ -11,6 +13,8 @@ import { ThemeSwitch } from "@/components/layout/ThemeSwitch";
 import { CurrencySelector } from "@/components/prices/CurrencySelector";
 import { MetalCard } from "@/components/prices/MetalCard";
 import { PortfolioLivePanel } from "@/components/portfolio/PortfolioLivePanel";
+import { PasswordInput } from "@/components/ui/PasswordInput";
+import { ToastPlayground } from "@/components/ui/ToastPlayground";
 import { METAL_DETAILS } from "@/lib/metals";
 
 const portfolioInstruments = [
@@ -87,6 +91,28 @@ function Swatch({ label, varName }: { label: string; varName: string }) {
   );
 }
 
+function AvatarShapeSet({ size }: { size: "sm" | "md" | "lg" }) {
+  const iconSize = size === "sm" ? 12 : size === "md" ? 16 : 20;
+
+  return (
+    <div className="flex h-full w-full items-center justify-center text-[var(--color-button-primary)]">
+      <svg
+        width={iconSize}
+        height={iconSize}
+        viewBox="0 0 12 12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden
+      >
+        <path
+          d="M6 0C4.34314 0 3 1.34316 3 3C1.34314 3 0 4.34316 0 6C0 7.65684 1.34314 9 3 9C3 10.6568 4.34314 12 6 12C7.65686 12 9 10.6568 9 9C10.6569 9 12 7.65684 12 6C12 4.34316 10.6569 3 9 3C9 1.34316 7.65686 0 6 0Z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+  );
+}
+
 export default function PlaygroundPage() {
   const xau = METAL_DETAILS.XAU;
   const xag = METAL_DETAILS.XAG;
@@ -129,7 +155,7 @@ export default function PlaygroundPage() {
                 <p className="mb-2 font-body text-[12px] uppercase tracking-wide text-[var(--color-text-tertiary)]">
                   font-body
                 </p>
-                <p className="font-body text-[15px] leading-relaxed tracking-[-0.01em] text-[var(--color-text-primary)]">
+                <p className="font-body text-[15px] leading-relaxed tracking-[-0.01em] text-[#323232]">
                   Body 15 — Used for descriptions and UI copy. Letter-spacing -0.01em.
                 </p>
                 <p className="mt-2 font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
@@ -252,13 +278,19 @@ export default function PlaygroundPage() {
           <Section title="Avatar">
             <div className="flex items-center gap-4">
               <Avatar color="accent" size="sm" variant="soft">
-                <Avatar.Fallback className="text-transparent">.</Avatar.Fallback>
+                <Avatar.Fallback className="p-0 text-transparent">
+                  <AvatarShapeSet size="sm" />
+                </Avatar.Fallback>
               </Avatar>
               <Avatar color="accent" size="md" variant="soft">
-                <Avatar.Fallback className="text-transparent">.</Avatar.Fallback>
+                <Avatar.Fallback className="p-0 text-transparent">
+                  <AvatarShapeSet size="md" />
+                </Avatar.Fallback>
               </Avatar>
               <Avatar color="accent" size="lg" variant="soft">
-                <Avatar.Fallback className="text-transparent">.</Avatar.Fallback>
+                <Avatar.Fallback className="p-0 text-transparent">
+                  <AvatarShapeSet size="lg" />
+                </Avatar.Fallback>
               </Avatar>
             </div>
           </Section>
@@ -299,11 +331,10 @@ export default function PlaygroundPage() {
                 >
                   Password
                 </label>
-                <input
+                <PasswordInput
                   id="pg-input-password"
-                  type="password"
                   placeholder="••••••••"
-                  className="tpmi-input"
+                  autoComplete="current-password"
                 />
               </div>
               <div className="space-y-2">
@@ -327,12 +358,17 @@ export default function PlaygroundPage() {
                 >
                   Search
                 </label>
-                <input
-                  id="pg-input-search"
-                  type="search"
-                  placeholder="Search metals"
-                  className="tpmi-input"
-                />
+                <div className="relative">
+                  <input
+                    id="pg-input-search"
+                    type="search"
+                    placeholder="Search metals"
+                    className="peer tpmi-input pr-10"
+                  />
+                  <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--color-text-tertiary)] transition-colors duration-150 peer-focus:text-[var(--color-text-primary)]">
+                    <HugeiconsIcon icon={Search01Icon} size={18} />
+                  </span>
+                </div>
               </div>
               <div className="space-y-2 md:col-span-2">
                 <label
@@ -341,11 +377,16 @@ export default function PlaygroundPage() {
                 >
                   Date
                 </label>
-                <input
-                  id="pg-input-date"
-                  type="date"
-                  className="tpmi-input max-w-xs"
-                />
+                <div className="relative max-w-xs">
+                  <input
+                    id="pg-input-date"
+                    type="date"
+                    className="peer tpmi-input tpmi-input--date pr-10"
+                  />
+                  <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--color-text-tertiary)] transition-colors duration-150 peer-focus:text-[var(--color-text-primary)]">
+                    <HugeiconsIcon icon={Calendar03Icon} size={18} />
+                  </span>
+                </div>
               </div>
             </div>
           </Section>
@@ -430,30 +471,40 @@ export default function PlaygroundPage() {
           </Section>
 
           <Section title="HeroUI additional · Checkbox">
-            <div className="rounded-[16px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-4">
-              <Checkbox defaultSelected>
-                <Checkbox.Control>
-                  <Checkbox.Indicator />
-                </Checkbox.Control>
-                <Checkbox.Content>Enable alerts</Checkbox.Content>
-              </Checkbox>
-            </div>
+            <Checkbox defaultSelected>
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Content>Enable alerts</Checkbox.Content>
+            </Checkbox>
           </Section>
 
           <Section title="HeroUI additional · Chip">
-            <div className="rounded-[16px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-4">
-              <Chip color="warning" variant="soft">
-                Preview
-              </Chip>
-            </div>
+            <Chip color="warning" variant="soft">
+              Preview
+            </Chip>
           </Section>
 
           <Section title="HeroUI additional · ProgressBar">
-            <div className="rounded-[16px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-4">
-              <div className="max-w-md">
-                <ProgressBar aria-label="Portfolio completion" value={65} />
-              </div>
+            <div className="max-w-md">
+              <ProgressBar aria-label="Portfolio completion" value={65}>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-body text-[13px] tracking-[-0.01em] text-[var(--color-text-secondary)]">
+                      Portfolio completion
+                    </span>
+                    <ProgressBar.Output className="font-body text-[12px] tracking-[-0.01em] text-[var(--color-text-tertiary)]" />
+                  </div>
+                  <ProgressBar.Track>
+                    <ProgressBar.Fill />
+                  </ProgressBar.Track>
+                </div>
+              </ProgressBar>
             </div>
+          </Section>
+
+          <Section title="Toast messages">
+            <ToastPlayground />
           </Section>
         </div>
       </div>

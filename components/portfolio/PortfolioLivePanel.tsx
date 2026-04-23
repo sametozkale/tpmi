@@ -75,9 +75,9 @@ export function PortfolioLivePanel({
   const changePct = firstValue !== 0 ? (changeAmount / firstValue) * 100 : 0;
 
   return (
-    <section className="space-y-5 rounded-[16px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] p-5 xl:col-span-8">
+    <section className="tpmi-card-surface space-y-5 p-5 xl:col-span-8">
       <div className="space-y-2">
-        <p className="font-body text-[15px] font-normal leading-none tracking-[-0.01em] text-[#777]">
+        <p className="font-body text-[15px] font-normal leading-none tracking-[-0.01em] text-[var(--color-text-secondary)]">
           Portfolio
         </p>
         <p className="font-title text-[30px] font-medium leading-none tracking-[-0.02em] text-[var(--color-text-primary)]">
@@ -98,16 +98,13 @@ export function PortfolioLivePanel({
         tone={changeAmount >= 0 ? "positive" : "negative"}
       />
 
-      <div className="flex items-center gap-4 border-t border-[var(--color-border-primary)] pt-4">
+      <div className="flex items-center gap-2">
         {["1D", "1W", "1M", "YTD", "1Y", "5Y"].map((range, i) => (
           <button
             key={range}
             type="button"
-            className={`font-body text-[11px] tracking-[-0.01em] transition-colors ${
-              i === 0
-                ? "text-[var(--color-text-primary)]"
-                : "text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]"
-            }`}
+            className="tpmi-range-chip"
+            data-active={i === 0}
           >
             {range}
           </button>
