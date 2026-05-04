@@ -1,6 +1,7 @@
 "use client";
 
 import { Label, ListBox, Select } from "@heroui/react";
+import { usePricesStore } from "@/lib/stores/prices-store";
 import type { Currency } from "@/types/metals";
 
 const CURRENCIES: { id: Currency; name: string }[] = [
@@ -18,12 +19,31 @@ const CURRENCIES: { id: Currency; name: string }[] = [
   { id: "AUD", name: "AUD" },
 ];
 
-export function CurrencySelector() {
+export function CurrencySelector({
+  value,
+  onChange,
+}: {
+  value?: Currency | null;
+  onChange?: (currency: Currency) => void;
+}) {
+  const storeCurrency = usePricesStore((state) => state.currency);
+  const setStoreCurrency = usePricesStore((state) => state.setCurrency);
+  const selected = value ?? storeCurrency;
+
   return (
     <Select
       className="min-w-[140px]"
       variant="secondary"
-      defaultValue="USD"
+      selectedKey={selected}
+      onSelectionChange={(key) => {
+        if (key == null || key === "all") return;
+        const next = String(key) as Currency;
+        if (onChange) {
+          onChange(next);
+          return;
+        }
+        setStoreCurrency(next);
+      }}
       placeholder="Currency"
       aria-label="Display currency"
     >

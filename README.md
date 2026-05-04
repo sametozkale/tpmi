@@ -18,8 +18,7 @@ Phase 0 ships **project bootstrap**, **Supabase auth**, **protected app shell**,
 
 ```bash
 pnpm install
-cp .env.local.example .env.local
-# fill in Supabase keys + site URL
+# configure .env.local (Supabase keys + site URL — see Environment variables)
 pnpm dev
 ```
 
@@ -38,14 +37,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Environment variables
 
-| Key | Phase 0 | Purpose |
+Configure `.env.local` with values from the Supabase dashboard (and generate `CRON_SECRET` for production refresh).
+
+| Key | When | Purpose |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | Required | Supabase API URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Required | Browser + server client |
-| `SUPABASE_SERVICE_ROLE_KEY` | Optional | Reserved for server-only jobs (not used in Phase 0 UI) |
-| `NEXT_PUBLIC_SITE_URL` | Recommended | OAuth + email redirect base |
-| `GOLDAPI_IO_KEY` | Phase 1+ | Live spot polling |
-| `METALS_API_KEY` | Phase 1+ | Historical / fallback |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Required | Browser + server Supabase client |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | OAuth + email redirect base (match dev port, e.g. `http://localhost:3003`) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Cron / refresh | Server-only writes to `spot_cache` / `fx_cache` via `/api/prices/refresh` |
+| `CRON_SECRET` | Cron / refresh | `Authorization: Bearer` secret for `/api/prices/refresh` |
+
+Spot quotes use **api.gold-api.com** (see [Gold API docs](https://gold-api.com/docs)) and **open.er-api.com**; no API keys required. Symbol labels come from the public metals-api symbols page or built-in defaults.
 
 ## Routes
 
@@ -54,23 +56,33 @@ Open [http://localhost:3000](http://localhost:3000).
 | `/sign-in`, `/sign-up` | Email + Google; errors via `?error=` |
 | `/auth/callback` | OAuth + email confirmation exchange |
 | `/auth/signout` | `POST` to sign out |
-| `/dashboard` | Markets skeleton (mock metals) |
-| `/holdings` | Placeholder |
-| `/settings` | Theme + copy for future prefs |
+| `/dashboard` | Live spot + Turkiye derived pricing sections |
+| `/watchlist` | Watchlist + live spot-derived prices |
+| `/portfolio` | Portfolio summary + allocations |
+| `/settings` | Placeholder for future preferences |
+
+## Live pricing cron
+
+- `vercel.json` defines a 2-minute cron for `/api/prices/refresh`.
+- Vercel cron must send `Authorization: Bearer ${CRON_SECRET}`.
+- `SUPABASE_SERVICE_ROLE_KEY` is used only server-side in `app/api/prices/refresh/route.ts` and never exposed to client code.
 
 ## Phase roadmap
 
-1. Live spot polling (GoldAPI.io) + Liveline charts + Supabase `metal_prices` cache
+1. Liveline charts + optional Supabase historical cache
 2. Holdings / physical portfolio
 3. Notifications and alerts (e.g. email via Edge Functions)
 4. Multi-currency calculator
-5. Historical charts (Metals-API / alternatives)
+5. Historical charts (third-party APIs as needed)
 6. i18n
 7. Marketing / landing site
 
 ## Scripts
 
-- `pnpm dev` — development server
+- `pnpm dev` — development server (**Webpack**; avoids Turbopack dev-cache bugs that surface as Internal Server Error / missing `[turbopack]_runtime.js`)
+- `pnpm dev:turbo` — dev with Turbopack (faster HMR when stable)
+
+If the app shows **Internal Server Error** or 500s after editing `.env` or hot reload, stop the server, run `rm -rf .next`, then `pnpm dev` again.
 - `pnpm build` — production build
 - `pnpm start` — run production build
 - `pnpm lint` — ESLint

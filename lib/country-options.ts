@@ -9,8 +9,18 @@ export interface CountryOption {
 }
 
 export function getCountryOptions(): CountryOption[] {
-  const names = countries.getNames("en", { select: "official" });
-  return Object.entries(names)
-    .map(([id, name]) => ({ id, name }))
+  const alpha2Codes = Object.keys(countries.getAlpha2Codes());
+
+  return alpha2Codes
+    .map((id) => {
+      const name =
+        countries.getName(id, "en", { select: "official" }) ??
+        countries.getName(id, "en");
+
+      return {
+        id,
+        name: name ?? id,
+      };
+    })
     .sort((a, b) => a.name.localeCompare(b.name));
 }

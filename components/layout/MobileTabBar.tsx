@@ -10,8 +10,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
-  { href: "/holdings", label: "Portfolio", icon: PieChart01Icon },
-  { href: "/dashboard", label: "Watchlist", icon: GridViewIcon },
+  { href: "/portfolio", label: "Portfolio", icon: PieChart01Icon },
+  { href: "/watchlist", label: "Watchlist", icon: GridViewIcon },
   { href: "/transactions", label: "Transactions", icon: Wallet01Icon },
 ] as const;
 

@@ -20,20 +20,15 @@ export type IsoCountryCode = string;
 
 export interface UserProfile {
   fullName: string;
-  /** ISO date string YYYY-MM-DD */
-  dateOfBirth: string;
   email: string;
-  /** E.164 */
-  phone: string;
-  countryOfResidence: IsoCountryCode;
-  /** Up to 3 ISO country codes */
-  nationality: IsoCountryCode[];
   preferredLanguage: PreferredLanguage;
-  /** IANA time zone; auto-derived from country, read-only in UI */
+  /** IANA time zone; read-only in UI, from browser when available */
   timeZone: string;
 }
 
 export interface UserPreferences {
+  /** ISO 3166-1 alpha-2 — drives default units, price source, and transaction presets */
+  operationsCountry: IsoCountryCode;
   displayUnit: DisplayUnit;
   priceSource: PriceSource;
 }

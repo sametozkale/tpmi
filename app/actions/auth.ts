@@ -23,7 +23,7 @@ export async function signInWithPassword(formData: FormData) {
     redirect(`/sign-in?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect("/dashboard");
+  redirect("/watchlist");
 }
 
 export async function signInWithGoogle() {

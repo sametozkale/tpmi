@@ -1,32 +1,48 @@
-import { ThemeSwitch } from "@/components/layout/ThemeSwitch";
+import Link from "next/link";
+
+const SETTINGS_LINKS = [
+  {
+    href: "/profile",
+    title: "Profile",
+    description: "Manage your personal information and account details.",
+  },
+  {
+    href: "/preferences",
+    title: "Preferences",
+    description: "Update display, country, and pricing defaults.",
+  },
+] as const;
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <h1 className="font-title text-[24px] font-medium leading-tight tracking-[-0.02em] text-[var(--color-text-primary)]">
-          Settings
-        </h1>
-        <p className="font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
-          Preferences for currency, language, and theme will expand beyond Phase
-          0.
-        </p>
-      </div>
-
-      <section className="tpmi-card-surface max-w-md space-y-3 p-5">
-        <h2 className="font-title text-[18px] font-medium tracking-[-0.01em] text-[var(--color-text-primary)]">
-          Appearance
-        </h2>
-        <p className="font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
-          Toggle dark mode (sidebar on desktop, header on mobile).
-        </p>
-        <div className="flex items-center gap-3 pt-2">
-          <span className="font-body text-[14px] tracking-[-0.01em] text-[var(--color-text-primary)]">
-            Theme
-          </span>
-          <ThemeSwitch />
+    <div className="flex min-h-full items-center justify-center">
+      <div className="w-[420px] space-y-8">
+        <div className="space-y-2">
+          <h1 className="font-title text-[24px] font-medium leading-tight tracking-[-0.02em] text-[var(--color-text-primary)]">
+            Settings
+          </h1>
+          <p className="font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
+            Quick access to account settings. Select a section below.
+          </p>
         </div>
-      </section>
+
+        <nav aria-label="Settings sections" className="space-y-3">
+          {SETTINGS_LINKS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block rounded-[14px] border border-[var(--color-border-primary)] bg-[var(--color-background-card)] px-4 py-3 transition-colors hover:bg-[var(--color-hover-tertiary)]"
+            >
+              <p className="font-body text-[14px] font-medium tracking-[-0.01em] text-[var(--color-text-primary)]">
+                {item.title}
+              </p>
+              <p className="mt-1 font-body text-[12px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
+                {item.description}
+              </p>
+            </Link>
+          ))}
+        </nav>
+      </div>
     </div>
   );
 }

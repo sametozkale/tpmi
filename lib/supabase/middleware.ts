@@ -3,8 +3,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "./env";
 
 const PROTECTED_PREFIXES = [
+  "/watchlist",
   "/dashboard",
-  "/holdings",
+  "/portfolio",
   "/transactions",
   "/settings",
   "/profile",
@@ -68,7 +69,7 @@ export async function updateSession(request: NextRequest) {
     (pathname === "/sign-in" || pathname === "/sign-up")
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
+    url.pathname = "/watchlist";
     return NextResponse.redirect(url);
   }
 

@@ -21,11 +21,7 @@ function profileFromUser(user: {
 
   return {
     fullName,
-    dateOfBirth: "",
     email: user.email ?? "",
-    phone: "",
-    countryOfResidence: defaultCountry,
-    nationality: [defaultCountry],
     preferredLanguage: "en",
     timeZone: resolveCountryTimezone(defaultCountry),
   };
@@ -54,7 +50,7 @@ export default async function ProfilePage() {
             Profile
           </h1>
           <p className="font-body text-[14px] leading-snug tracking-[-0.01em] text-[var(--color-text-secondary)]">
-            Your personal details and regional defaults.
+            Your personal details.
           </p>
         </div>
 

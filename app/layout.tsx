@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Hanken_Grotesk, Inter } from "next/font/google";
-import { cookies } from "next/headers";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -25,26 +24,17 @@ export const metadata: Metadata = {
     "TPMI — a global precious metals portfolio tracker with live spot context.",
 };
 
-type ThemeMode = "light" | "dark";
-
-function getThemeFromCookie(value?: string): ThemeMode {
-  return value === "dark" ? "dark" : "light";
-}
-
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const initialTheme = getThemeFromCookie(cookieStore.get("tpmi_theme")?.value);
-
   return (
     <html
       lang="en"
-      data-theme={initialTheme}
+      data-theme="light"
+      className={`light ${titleFont.variable} ${bodyFont.variable} h-full antialiased`}
       suppressHydrationWarning
-      className={`${titleFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body">
         <Providers>{children}</Providers>

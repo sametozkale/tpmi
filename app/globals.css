@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
+/* HeroUI registers `dark:` with a prefers-color-scheme fallback. TPMI is light-only; without this,
+   OS dark mode activates dark utilities and components no longer match our light tokens. */
+@custom-variant dark {
+  &:is(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+    &::before,
+    &::after {
+      @slot;
+    }
+  }
+}
+
 :root {
   --accent: #fe7e01;
   --accent-foreground: #ffffff;
@@ -9,7 +21,7 @@
   --color-background: #ffffff;
   --color-background-paper: #f7f5f3;
   --color-background-elevation: #f2f1f0;
-  --color-background-light-elevation: #fbf8f5;
+  --color-background-light-elevation: #fafafa;
   --color-background-card: #ffffff;
   --color-background-inverted: #0d0d0d;
 
@@ -66,35 +78,6 @@
   --shadow-3: 0 6px 44px 0 rgba(0, 0, 0, 0.15), 0 4px 8px 0 rgba(0, 0, 0, 0.03);
 }
 
-[data-theme="dark"] {
-  --accent: #fe7e01;
-  --accent-foreground: #ffffff;
-
-  --color-background: #141414;
-  --color-background-paper: #141414;
-  --color-background-elevation: #323131;
-  --color-background-light-elevation: #212020;
-  --color-background-card: #212020;
-  --color-background-inverted: #ffffff;
-  --color-button-primary: #fe7e01;
-  --color-button-secondary: #323131;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #aeabab;
-  --color-text-tertiary: #918f8f;
-  --color-text-quaternary: #434242;
-  --color-text-inverted: #0d0d0d;
-  --color-text-critical: #ef7759;
-  --color-text-link: #fe7e01;
-  --color-border-primary: #3a3a3a;
-  --color-border-secondary: #333333;
-  --color-border-soft: #2a2a2a;
-  --color-border-active: #ffffff;
-  --color-border-critical: #ef7759;
-  --color-hover-primary: #e57100;
-  --color-hover-secondary: #373636;
-  --color-hover-tertiary: #181818;
-}
-
 @theme inline {
   --font-family-title: var(--font-title), Arial, system-ui, sans-serif;
   --font-family-body: var(--font-body), Arial, system-ui, sans-serif;
@@ -110,6 +93,7 @@
 
   html {
     height: 100%;
+    color-scheme: light;
   }
 
   body {
@@ -227,10 +211,6 @@
   }
 
   .tpmi-input--date {
-    color: var(--color-text-tertiary);
-  }
-
-  .tpmi-input--date:focus-visible {
     color: var(--color-text-primary);
   }
 
@@ -245,7 +225,7 @@
     border: 1px solid var(--color-border-primary);
     background: var(--color-background-card);
     color: var(--color-text-primary);
-    padding: 0 40px 0 12px;
+    padding: 0 12px;
     font-family: var(--font-body), Arial, system-ui, sans-serif;
     font-size: 14px;
     line-height: 1.45;
@@ -317,7 +297,7 @@
   .tpmi-select-trigger [data-slot="select-indicator"] {
     color: var(--color-text-tertiary);
     position: absolute;
-    right: 12px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -325,6 +305,7 @@
   .tpmi-select-trigger [data-slot="select-value"] {
     margin: 0;
     padding: 0;
+    padding-right: 24px;
   }
 
   .tpmi-divider-or {
@@ -375,6 +356,49 @@
     font-size: 14px;
     letter-spacing: -0.01em;
     line-height: 1.4;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /* Buttons (override HeroUI defaults to match TPMI tokens)                     */
+  /* -------------------------------------------------------------------------- */
+
+  .button {
+    font-family: var(--font-body), Arial, system-ui, sans-serif;
+    letter-spacing: -0.01em;
+    border-radius: 12px;
+    transition:
+      background-color 150ms ease-in-out,
+      border-color 150ms ease-in-out,
+      color 150ms ease-in-out,
+      box-shadow 150ms ease-in-out;
+  }
+
+  .button--secondary {
+    background: var(--color-background-elevation);
+    border: 1px solid var(--color-border-primary);
+    color: #777;
+  }
+
+  .button--secondary:hover {
+    background: var(--color-hover-secondary);
+    border-color: var(--color-border-primary);
+    color: #777;
+  }
+
+  .button--secondary:active {
+    background: color-mix(
+      in oklab,
+      var(--color-hover-secondary) 82%,
+      var(--color-border-primary)
+    );
+    border-color: var(--color-border-primary);
+    color: #777;
+  }
+
+  .button--secondary:disabled,
+  .button--secondary[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .checkbox--primary[aria-checked="true"] .checkbox__control::before,

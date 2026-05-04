@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
   const target = error
     ? `/sign-in?error=${encodeURIComponent(error.message)}`
-    : "/dashboard";
+    : "/watchlist";
   return NextResponse.redirect(new URL(target, request.url));
 }
 

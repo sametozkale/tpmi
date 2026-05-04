@@ -1,6 +1,12 @@
 "use client";
 
 import { Avatar, Dropdown } from "@heroui/react";
+import {
+  PreferenceHorizontalIcon,
+  Logout01Icon,
+  UserCircleIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
@@ -66,8 +72,8 @@ function AvatarMenuImpl({
     cn(
       "rounded-[10px] px-[10px] py-2 font-body text-[14px] tracking-[-0.01em] transition-colors duration-150 ease-in-out",
       active
-        ? "bg-[#f6f6f6] text-[var(--color-text-primary)]"
-        : "text-[var(--color-text-primary)] hover:bg-[var(--color-hover-secondary)]",
+        ? "bg-[#f2f2f2] text-[var(--color-text-primary)]"
+        : "text-[var(--color-text-primary)] hover:bg-[#f2f2f2]",
     );
 
   return (
@@ -104,7 +110,10 @@ function AvatarMenuImpl({
                 router.push("/profile");
               }}
             >
-              Profile Settings
+              <span className="flex items-center gap-2">
+                <HugeiconsIcon icon={UserCircleIcon} size={16} color="currentColor" strokeWidth={1.5} />
+                <span>Profile Settings</span>
+              </span>
             </Dropdown.Item>
             <Dropdown.Item
               id="preferences"
@@ -117,7 +126,10 @@ function AvatarMenuImpl({
                 router.push("/preferences");
               }}
             >
-              Preferences
+              <span className="flex items-center gap-2">
+                <HugeiconsIcon icon={PreferenceHorizontalIcon} size={16} color="currentColor" strokeWidth={1.5} />
+                <span>Preferences</span>
+              </span>
             </Dropdown.Item>
           </Dropdown.Section>
           <Dropdown.Section>
@@ -125,12 +137,15 @@ function AvatarMenuImpl({
               id="signout"
               variant="danger"
               textValue="Log out"
-              className="rounded-[10px] px-[10px] py-2 font-body text-[14px] tracking-[-0.01em]"
+              className="rounded-[10px] px-[10px] py-2 font-body text-[14px] tracking-[-0.01em] hover:bg-[#f2f2f2]"
               onAction={() => {
                 submitSignOut();
               }}
             >
-              Log out
+              <span className="flex items-center gap-2">
+                <HugeiconsIcon icon={Logout01Icon} size={16} color="currentColor" strokeWidth={1.5} />
+                <span>Log out</span>
+              </span>
             </Dropdown.Item>
           </Dropdown.Section>
         </Dropdown.Menu>

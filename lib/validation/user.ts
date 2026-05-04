@@ -1,6 +1,10 @@
 import countries from "i18n-iso-countries";
 import { z } from "zod";
 
+function isValidIsoAlpha2(code: string): boolean {
+  return countries.isValid(code);
+}
+
 const displayUnitSchema = z.enum([
   "gram",
   "troy_ounce",
@@ -18,10 +22,6 @@ const priceSourceSchema = z.enum([
   "LOCAL_MARKET",
 ]);
 
-function isValidIsoAlpha2(code: string): boolean {
-  return countries.isValid(code);
-}
-
 function isValidIanaTimeZone(tz: string): boolean {
   try {
     Intl.DateTimeFormat(undefined, { timeZone: tz });
@@ -31,22 +31,9 @@ function isValidIanaTimeZone(tz: string): boolean {
   }
 }
 
-function isAtLeast18YearsOld(isoDate: string): boolean {
-  const birth = new Date(isoDate + "T12:00:00Z");
-  if (Number.isNaN(birth.getTime())) return false;
-  const now = new Date();
-  const cutoff = new Date(
-    now.getFullYear() - 18,
-    now.getMonth(),
-    now.getDate(),
-  );
-  return birth <= cutoff;
-}
-
-/** Letters (Unicode letters), spaces, hyphens — single full name field */
-const fullNameSchema = z
+/** Non-empty full name: letters, spaces, hyphens */
+const nonEmptyFullNameSchema = z
   .string()
-  .trim()
   .min(2, "Full name must be at least 2 characters")
   .max(120, "Full name must be at most 120 characters")
   .regex(
@@ -54,39 +41,19 @@ const fullNameSchema = z
     "Use letters, spaces, and hyphens only",
   );
 
-const emailSchema = z.string().trim().email("Enter a valid email address");
-
-/** E.164: + followed by country code and subscriber number */
-const e164Schema = z
-  .string()
-  .trim()
-  .regex(
-    /^\+[1-9]\d{1,14}$/,
-    "Phone must be in E.164 format (e.g. +15551234567)",
-  );
-
 export const userProfileSchema = z.object({
-  fullName: fullNameSchema,
-  dateOfBirth: z
+  fullName: z
     .string()
     .trim()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD")
-    .refine(isAtLeast18YearsOld, "You must be at least 18 years old"),
-  email: emailSchema,
-  phone: e164Schema,
-  countryOfResidence: z
+    .pipe(z.union([z.literal(""), nonEmptyFullNameSchema])),
+  email: z
     .string()
     .trim()
-    .toUpperCase()
-    .length(2)
-    .refine(isValidIsoAlpha2, "Invalid country code"),
-  nationality: z
-    .array(z.string().trim().toUpperCase().length(2))
-    .min(1, "Select at least one nationality")
-    .max(3, "You can select up to 3 nationalities")
-    .refine(
-      (arr) => arr.every((c) => isValidIsoAlpha2(c)),
-      "Invalid nationality code",
+    .pipe(
+      z.union([
+        z.literal(""),
+        z.string().email("Enter a valid email address"),
+      ]),
     ),
   preferredLanguage: z.literal("en"),
   timeZone: z
@@ -97,6 +64,11 @@ export const userProfileSchema = z.object({
 });
 
 export const userPreferencesSchema = z.object({
+  operationsCountry: z
+    .string()
+    .trim()
+    .transform((s) => s.toUpperCase())
+    .pipe(z.string().length(2).refine(isValidIsoAlpha2, "Invalid country")),
   displayUnit: displayUnitSchema,
   priceSource: priceSourceSchema,
 });

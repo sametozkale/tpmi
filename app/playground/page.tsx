@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Calendar03Icon, Search01Icon } from "@hugeicons/core-free-icons";
@@ -9,8 +11,6 @@ import {
   ProgressBar,
   Table,
 } from "@heroui/react";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { ThemeSwitch } from "@/components/layout/ThemeSwitch";
 import { CurrencySelector } from "@/components/prices/CurrencySelector";
 import { MetalCard } from "@/components/prices/MetalCard";
 import { PortfolioLivePanel } from "@/components/portfolio/PortfolioLivePanel";
@@ -326,19 +326,6 @@ export default function PlaygroundPage() {
             </div>
           </Section>
 
-          <Section title="ThemeToggle">
-            <ThemeToggle />
-          </Section>
-
-          <Section title="ThemeSwitch">
-            <div className="flex items-center gap-3">
-              <span className="font-body text-[14px] tracking-[-0.01em] text-[var(--color-text-secondary)]">
-                Dark mode
-              </span>
-              <ThemeSwitch />
-            </div>
-          </Section>
-
           <Section title="Input">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
@@ -450,7 +437,11 @@ export default function PlaygroundPage() {
           </Section>
 
           <Section title="PortfolioLivePanel">
-            <PortfolioLivePanel instruments={portfolioInstruments} />
+            <PortfolioLivePanel
+              instruments={portfolioInstruments}
+              transactions={[]}
+              enableRemoteSync={false}
+            />
           </Section>
 
           <Section title="Surfaces & auth primitives">
@@ -538,7 +529,7 @@ export default function PlaygroundPage() {
             <div className="overflow-x-auto">
               <Table
                 aria-label="Playground investments table"
-                className="min-w-[620px] overflow-hidden rounded-b-[14px]"
+                className="min-w-[620px] overflow-hidden rounded-b-[14px] bg-[#f2f2f2]"
               >
                 <Table.Content className="-mb-1 w-full min-w-[620px] border-separate border-spacing-y-1">
                   <Table.Header className="font-body text-[11px] tracking-[-0.01em] text-[var(--color-text-tertiary)]">

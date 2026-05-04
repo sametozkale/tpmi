@@ -1,8 +1,6 @@
 "use client";
 
 import { Liveline, type LivelinePoint } from "liveline";
-import type { ThemeMode } from "liveline";
-import { useSyncExternalStore } from "react";
 
 type ChartTone = "positive" | "negative" | "neutral";
 
@@ -12,24 +10,13 @@ export interface LivelineChartProps {
   height: number;
   tone?: ChartTone;
   compact?: boolean;
-}
-
-function subscribeTheme(onStoreChange: () => void) {
-  const observer = new MutationObserver(onStoreChange);
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["data-theme"],
-  });
-  return () => observer.disconnect();
-}
-
-function getThemeSnapshot() {
-  if (typeof document === "undefined") {
-    return "light" as ThemeMode;
-  }
-  return document.documentElement.getAttribute("data-theme") === "dark"
-    ? ("dark" as ThemeMode)
-    : ("light" as ThemeMode);
+  /** When set, overrides default pulse (normally on when not compact). */
+  pulse?: boolean;
+  /**
+   * How many seconds of history the X-axis spans (Liveline default is 30).
+   * Use a large value for portfolio / multi-day series.
+   */
+  windowSeconds?: number;
 }
 
 function colorFromTone(tone: ChartTone) {
@@ -44,13 +31,10 @@ export function LivelineChart({
   height,
   tone = "neutral",
   compact = false,
+  pulse: pulseProp,
+  windowSeconds,
 }: LivelineChartProps) {
-  const theme = useSyncExternalStore<ThemeMode>(
-    subscribeTheme,
-    getThemeSnapshot,
-    () => "light",
-  );
-
+  const pulse = pulseProp ?? !compact;
   return (
     <div
       className="w-full overflow-hidden rounded-[12px] bg-white"
@@ -60,14 +44,15 @@ export function LivelineChart({
       <Liveline
         data={data}
         value={value}
-        theme={theme}
+        window={windowSeconds ?? 30}
+        theme="light"
         color={colorFromTone(tone)}
         badge={!compact}
         badgeVariant="minimal"
         badgeTail={!compact}
         grid={!compact}
         fill
-        pulse={!compact}
+        pulse={pulse}
         scrub={!compact}
         lineWidth={2}
         exaggerate={compact}

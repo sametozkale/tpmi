@@ -1,6 +1,7 @@
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { MobileHeader } from "@/components/layout/MobileHeader";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
+import { PricesProvider } from "@/components/prices/PricesProvider";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
@@ -41,7 +42,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       <div className="flex min-h-full flex-1 flex-col lg:pl-[var(--layout-sidebar-width)]">
         <MobileHeader {...headerUser} />
         <main className="flex-1 px-4 pb-[calc(var(--mobile-bottom-navbar-height)+24px)] pt-6 lg:px-[72px] lg:pb-12 lg:pt-[48px]">
-          <div className="mx-auto w-full max-w-[1200px]">{children}</div>
+          <div className="mx-auto w-full max-w-[1200px]">
+            <PricesProvider>{children}</PricesProvider>
+          </div>
         </main>
         <MobileTabBar />
       </div>

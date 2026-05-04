@@ -10,12 +10,11 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AvatarMenu } from "@/components/layout/AvatarMenu";
-import { ThemeToggle } from "./ThemeToggle";
 import { TpmiLogo } from "./TpmiLogo";
 
 const links = [
-  { href: "/holdings", label: "Portfolio", icon: PieChart01Icon },
-  { href: "/dashboard", label: "Watchlist", icon: GridViewIcon },
+  { href: "/portfolio", label: "Portfolio", icon: PieChart01Icon },
+  { href: "/watchlist", label: "Watchlist", icon: GridViewIcon },
   { href: "/transactions", label: "Transactions", icon: Wallet01Icon },
 ] as const;
 
@@ -34,16 +33,17 @@ export function AppSidebar({
 
   return (
     <aside
-      className="fixed inset-y-0 left-0 z-30 hidden w-[var(--layout-sidebar-width)] flex-col border-r border-[var(--color-border-primary)] bg-[#fafafa] lg:flex"
+      className="fixed inset-y-0 left-0 z-30 hidden w-[var(--layout-sidebar-width)] flex-col border-r border-[var(--color-border-primary)] !bg-[#fafafa] lg:flex"
+      style={{ backgroundColor: "#fafafa" }}
       aria-label="Sidebar"
     >
       <div
         className="flex h-[var(--layout-header-height)] items-center border-b border-[var(--color-border-primary)] px-6"
       >
         <Link
-          href="/dashboard"
+          href="/portfolio"
           className="inline-flex items-center"
-          aria-label="Go to dashboard"
+          aria-label="Go to portfolio"
         >
           <TpmiLogo />
         </Link>
@@ -61,7 +61,7 @@ export function AppSidebar({
                 active
                   ? "bg-[#f2f2f2] text-[var(--color-text-primary)]"
                   : "text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]"
-              }`}
+              } hover:bg-[#f2f2f2]`}
             >
               <HugeiconsIcon
                 icon={link.icon}
@@ -84,7 +84,6 @@ export function AppSidebar({
             placement="top start"
           />
           <div className="ml-auto flex items-center gap-3">
-            <ThemeToggle />
             <Link
               href="/settings"
               aria-label="Go to settings"
